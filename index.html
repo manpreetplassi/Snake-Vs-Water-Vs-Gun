@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .intro {
+            border: 3px lightgreen solid;
+            background-color: lightpink;
+            text-align: center;
+            padding: 11px 20px 15px;
+            margin: 2vw;
+        }
+
+        .content {
+            border: 3px lightgreen solid;
+            border-radius: 10px;
+            background-color: lightpink;
+            margin: auto;
+            width: 45vw;
+            height: 25vh;
+            text-align: center;
+            margin-bottom: 2vw;
+        }
+
+        .btn {
+            justify-content: space-around;
+            display: flex;
+            width: 25vw;
+            margin: auto;
+        }
+
+        .btn div {
+            background-color: pink;
+            padding: 15px 23px;
+            width: 25px;
+            text-align: center;
+            border: 1px solid green;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .content {
+                width: 90%;
+                height: 25vh;
+            }
+
+            .btn {
+                justify-content: space-around;
+                width: 90%;
+                margin-top: 5vh;
+            }
+
+            .btn div {
+                padding: 25px 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="intro" >SNAKE VS WATER VS GUN</div>
+    <div class="content" id="id_content">
+        <div class="result" id="id_result">
+            Let's Start...
+        </div>
+        <div id="res">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="btn" id="id_btn">
+        <div id="snake">S</div>
+        <div id="water">W</div>
+        <div id="gun">G</div>
+    </div>
+</body>
+<script>
+    let snake = document.getElementById("snake")
+    let gun = document.getElementById("gun")
+    let water = document.getElementById("water")
+
+    let char = 'SGW';
+    let charlen = char.length;
+    let input;
+    let chance = 1;
+    let score = 0;
+
+    snake.onclick = () => {
+        input = 'S';
+        events();
+    };
+    water.onclick = () => {
+        input = 'W';        
+        events();
+    };
+    gun.onclick = () => {
+        input = 'G'
+        events();
+    };
+
+    events = () => {
+        game_logic();
+        total_score();
+        total_chance();
+        chance++;
+    }
+    total_chance = () => {
+        res.childNodes[3].innerText = "Your enter: " + chance + " times";
+    }
+    total_score = () => {
+        res.childNodes[5].innerText = "Your score: " + score;
+    }
+    function game_logic() {
+        let random = char.charAt(Math.floor(Math.random() * charlen));
+
+        res.childNodes[1].innerText = `You enter: ${input}`;
+
+        if (random == input) {
+            id_result.innerText = "Match draw";
+        }
+        else if (random == 'S' && input == 'G') {
+            id_result.innerText = "You win [you kill the Snake]";
+            score++;
+        }
+        else if (random == 'S' && input == 'W') {
+            id_result.innerText = "You loss [Snake drink the water]";
+        }
+        else if (random == 'G' && input == 'S') {
+            id_result.innerText = "You loss [Gun kill your Snake]";
+        }
+        else if (random == 'G' && input == 'W') {
+            score++;
+            id_result.innerText = "You win [Water damage the Gun]";
+        }
+        else if (random == 'W' && input == 'S') {
+            score++;
+            id_result.innerText = "You win [Snake drink the water]";
+        }
+        else if (random == 'W' && input == 'G') {
+            id_result.innerText = "You loss [Water damage your Gun]";
+        }
+        else {
+            id_result.innerText = "you enter wrong keyword";
+        }
+        res.childNodes[2].innerText = `PC enter: ${random}`;
+    }
+
+</script>
+
+</html>
